@@ -22,11 +22,21 @@ body {
     box-shadow: 1px 4px 4px rgba(74, 103, 124, 0.22);
     border-radius: 0 10px 10px 0;
     padding: 10px;
-    overflow-y: auto;
+    overflow-y: hidden;
     transition: width 0.3s;
+    position: relative;
 }
 
+.sidebar.collapsed {
+    width: 40px; /* 保留按钮宽度 */
+    overflow: hidden;
+}
 
+.sidebar.collapsed .sidebar-title,
+.sidebar.collapsed #search,
+.sidebar.collapsed #history-list {
+    display: none;
+}
 
 .sidebar-header {
     display: flex;
@@ -40,7 +50,8 @@ body {
     cursor: pointer;
     margin-right: 10px;
 }
-.sidebar-header h2 {
+
+.sidebar-title {
     position: absolute;
     width: 64px;
     height: 19px;
@@ -68,14 +79,15 @@ body {
     padding: 10px;
 }
 
-
 #history-list {
-    margin-top: 150px;
-    overflow-y: auto;
-    top: 160px; /* 修改此处，确保列表从搜索框下方开始 */
+    position: absolute;
+    top: 160px;
     bottom: 10px;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    overflow-y: auto;
 }
-
 
 .history-item {
     background: rgba(212, 237, 255, 0.4);
@@ -83,7 +95,6 @@ body {
     margin: 10px 0;
     border-radius: 5px;
     cursor: pointer;
-
 }
 
 .history-item:hover {
@@ -94,7 +105,16 @@ body {
     width: 80%;
     padding: 20px;
     text-align: center;
-    transition: width 0.3s;
+    transition: width 0.3s, left 0.3s;
+    position: relative;
+}
+
+.main-content.collapsed {
+    width: calc(100% - 40px);
+}
+
+.main-content:not(.collapsed) {
+    width: 80%;
 }
 
 h1 {
@@ -129,4 +149,5 @@ input[type="submit"] {
 #response {
     margin-top: 20px;
     text-align: left;
+    width: 80%;
 }

@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="sidebar" id="sidebar">
+        <div class="sidebar expanded" id="sidebar">
             <div class="sidebar-header">
                 <img src="{{ url_for('static', filename='images/liebiao.png') }}" alt="Menu" class="menu-icon" id="menu-icon">
                 <h2 class="sidebar-title">历史记录</h2>
@@ -22,7 +22,7 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="main-content" id="main-content">
+        <div class="main-content expanded" id="main-content">
             <h1>💬 邮邮助手</h1>
             <form id="question-form">
                 <label for="question">输入您的问题并按回车发送</label><br>
@@ -82,21 +82,13 @@
         document.getElementById('menu-icon').addEventListener('click', function() {
             const sidebar = document.getElementById('sidebar');
             const mainContent = document.getElementById('main-content');
-            if (sidebar.style.width === '0px' || sidebar.style.width === '') {
-                sidebar.style.width = '319px';
-                mainContent.style.left = '319px';
-                mainContent.style.width = 'calc(100% - 319px)';
-                sidebar.querySelector('.sidebar-title').style.display = 'block';
-                sidebar.querySelector('#search').style.display = 'block';
-                sidebar.querySelector('#history-list').style.display = 'block';
-            } else {
-                sidebar.style.width = '0px';
-                mainContent.style.left = '0';
-                mainContent.style.width = '100%';
-                sidebar.querySelector('.sidebar-title').style.display = 'none';
-                sidebar.querySelector('#search').style.display = 'none';
-                sidebar.querySelector('#history-list').style.display = 'none';
-            }
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('collapsed');
+            // 更新内容显示
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            document.getElementById('search').style.display = isCollapsed ? 'none' : 'block';
+            document.getElementById('history-list').style.display = isCollapsed ? 'none' : 'block';
+            document.querySelector('.sidebar-title').style.display = isCollapsed ? 'none' : 'block';
         });
     </script>
 </body>
