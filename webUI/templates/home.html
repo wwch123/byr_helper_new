@@ -11,7 +11,7 @@
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <img src="{{ url_for('static', filename='images/liebiao.png') }}" alt="Menu" class="menu-icon" id="menu-icon">
-                <h2>历史记录</h2>
+                <h2 class="sidebar-title">历史记录</h2>
             </div>
             <input type="text" id="search" placeholder="搜索历史记录">
             <div id="history-list">
@@ -82,16 +82,18 @@
         document.getElementById('menu-icon').addEventListener('click', function() {
             const sidebar = document.getElementById('sidebar');
             const mainContent = document.getElementById('main-content');
-            if (sidebar.style.width === '0px') {
-                sidebar.style.width = '20%';
-                mainContent.style.width = '80%';
-                sidebar.querySelector('.sidebar-header h2').style.display = 'block';
+            if (sidebar.style.width === '0px' || sidebar.style.width === '') {
+                sidebar.style.width = '319px';
+                mainContent.style.left = '319px';
+                mainContent.style.width = 'calc(100% - 319px)';
+                sidebar.querySelector('.sidebar-title').style.display = 'block';
                 sidebar.querySelector('#search').style.display = 'block';
                 sidebar.querySelector('#history-list').style.display = 'block';
             } else {
                 sidebar.style.width = '0px';
+                mainContent.style.left = '0';
                 mainContent.style.width = '100%';
-                sidebar.querySelector('.sidebar-header h2').style.display = 'none';
+                sidebar.querySelector('.sidebar-title').style.display = 'none';
                 sidebar.querySelector('#search').style.display = 'none';
                 sidebar.querySelector('#history-list').style.display = 'none';
             }

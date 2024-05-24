@@ -9,12 +9,12 @@
 <body>
     <div>
         <div class="title">邮邮助手</div>
-        <form id="loginForm" method="POST" action="{{ url_for('login') }}" onsubmit="return validateForm()">
+        <form id="loginForm" method="POST" onsubmit="return validateForm()">
             <div class="container">
-                <input type="text" name="username" placeholder="账号">
+                <input type="text" id="username" name="username" placeholder="账号">
             </div>
             <div class="container" style="margin-top: 20px;">
-                <input type="password" name="password" placeholder="密码">
+                <input type="password" id="password" name="password" placeholder="密码">
             </div>
             <button type="submit" style="margin-top: 20px;">登陆</button>
             <div class="text highlight" style="margin-top: 20px;">
@@ -35,10 +35,24 @@
     <script>
         function validateForm() {
             const agreementCheckbox = document.getElementById('agreement');
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
             if (!agreementCheckbox.checked) {
                 alert('请同意用户协议');
                 return false;
             }
+
+            if (!username) {
+                alert('请输入您的账号');
+                return false;
+            }
+
+            if (!password) {
+                alert('请输入您的密码');
+                return false;
+            }
+
             return true;
         }
 
@@ -51,6 +65,24 @@
             // 这里假设跳转到微信登录页面，实际需要根据你的微信登录逻辑进行调整
             window.location.href = '/wechat_login';
         }
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            fetch('/login', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "error") {
+                    alert(data.message);
+                } else if (data.status === "success") {
+                    window.location.href = "/home";
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
     </script>
 </body>
 </html>

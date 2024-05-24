@@ -26,6 +26,8 @@ body {
     transition: width 0.3s;
 }
 
+
+
 .sidebar-header {
     display: flex;
     align-items: center;
@@ -69,7 +71,11 @@ body {
 
 #history-list {
     margin-top: 150px;
+    overflow-y: auto;
+    top: 160px; /* 修改此处，确保列表从搜索框下方开始 */
+    bottom: 10px;
 }
+
 
 .history-item {
     background: rgba(212, 237, 255, 0.4);
@@ -77,6 +83,7 @@ body {
     margin: 10px 0;
     border-radius: 5px;
     cursor: pointer;
+
 }
 
 .history-item:hover {

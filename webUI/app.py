@@ -124,17 +124,19 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        if not username:
+            return jsonify({"status": "error", "message": "请输入您的账号"})
+        if not password:
+            return jsonify({"status": "error", "message": "请输入您的密码"})
         action, user_info = register_or_login(username, password)
         if action == 'login':
-            flash(f"成功登录，用户名为 {username}。", "success")
             session['user_id'] = user_info
-            return redirect(url_for('home'))
+            return jsonify({"status": "success", "message": "登录成功"})
         elif action == 'register':
-            flash(f"注册成功，用户名为 {username}。", "success")
             session['user_id'] = user_info
-            return redirect(url_for('home'))
+            return jsonify({"status": "success", "message": "注册成功"})
         elif action == 'error':
-            flash(user_info, "danger")
+            return jsonify({"status": "error", "message": user_info})
 
     return render_template('login.html')
 
