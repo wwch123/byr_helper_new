@@ -1,0 +1,125 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.sidebar {
+    width: 20%;
+    background: rgba(218, 229, 236, 0.5);
+    box-shadow: 1px 4px 4px rgba(74, 103, 124, 0.22);
+    border-radius: 0 10px 10px 0;
+    padding: 10px;
+    overflow-y: auto;
+    transition: width 0.3s;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+}
+
+.menu-icon {
+    width: 32px;
+    height: 32px;
+    opacity: 0.7;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.sidebar-header h2 {
+    position: absolute;
+    width: 64px;
+    height: 19px;
+    left: 13px;
+    top: 80px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #A5B7C4;
+    margin: 0;
+}
+
+#search {
+    position: absolute;
+    width: 218px;
+    height: 29px;
+    left: 13px;
+    top: 115px;
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+    border-radius: 11px;
+    border: none;
+    padding: 10px;
+}
+
+
+#history-list {
+    margin-top: 150px;
+}
+
+.history-item {
+    background: rgba(212, 237, 255, 0.4);
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.history-item:hover {
+    background: rgba(212, 237, 255, 0.7);
+}
+
+.main-content {
+    width: 80%;
+    padding: 20px;
+    text-align: center;
+    transition: width 0.3s;
+}
+
+h1 {
+    font-size: 48px;
+    color: #364A58;
+}
+
+form {
+    margin-top: 20px;
+}
+
+input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    font-size: 18px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+input[type="submit"] {
+    background: rgba(77, 139, 184, 0.68);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 13px;
+    border: none;
+    font-size: 28px;
+    color: #FFFFFF;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+#response {
+    margin-top: 20px;
+    text-align: left;
+}

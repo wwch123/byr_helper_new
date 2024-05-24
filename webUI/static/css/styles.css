@@ -1,0 +1,140 @@
+/* styles.css */
+
+/* 通用样式 */
+body {
+    font-family: 'Inter', sans-serif;
+    background: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    text-align: center;
+}
+
+.container {
+    width: 350px;
+    margin: 0 auto;
+    background: rgba(212, 237, 255, 0.4);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 85%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    color: #80919D;
+    padding: 10px;
+}
+
+button {
+    background: rgba(77, 139, 184, 0.68);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 13px;
+    border: none;
+    font-size: 28px;
+    color: #FFFFFF;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-top: 1rem;
+}
+
+.text {
+    font-size: 20px;
+    color: #80919D;
+}
+
+.text .highlight {
+    color: #56626B;
+}
+
+.title {
+    font-size: 48px;
+    font-weight: 700;
+    color: #364A58;
+    margin-bottom: 1rem;
+}
+
+.agreement-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.agreement-container input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.agreement {
+    font-size: 16px;
+    color: #8D959A;
+}
+
+.icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.icon.wechat {
+    background-image: url('/static/images/denglu_weixindenglu.png');
+}
+
+/* 响应式布局 */
+@media (max-width: 768px) {
+    .container {
+        width: 80%;
+        height: auto;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        font-size: 16px;
+    }
+
+    button {
+        font-size: 20px;
+    }
+
+    .text {
+        font-size: 16px;
+    }
+
+    .agreement {
+        font-size: 14px;
+    }
+
+    .icon {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+@media (min-width: 769px) {
+    .container {
+        width: 350px;
+        height: 60px;
+    }
+}

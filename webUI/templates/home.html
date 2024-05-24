@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邮邮助手</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='images/liebiao.png') }}" alt="Menu" class="menu-icon" id="menu-icon">
+                <h2>历史记录</h2>
+            </div>
+            <input type="text" id="search" placeholder="搜索历史记录">
+            <div id="history-list">
+                {% for record in history %}
+                    <div class="history-item" data-id="{{ record.id }}">
+                        <p>{{ record.timestamp }} - {{ record.question }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="main-content" id="main-content">
+            <h1>💬 邮邮助手</h1>
+            <form id="question-form">
+                <label for="question">输入您的问题并按回车发送</label><br>
+                <input type="text" id="question" name="question"><br><br>
+                <input type="submit" value="发送">
+            </form>
+            <div id="response">
+                {% if question and answer %}
+                    <h2>问: {{ question }}</h2>
+                    <h2>答: {{ answer }}</h2>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('question-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const question = document.getElementById('question').value;
+            fetch('/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    'question': question
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    const responseDiv = document.getElementById('response');
+                    responseDiv.innerHTML = `<h2>问: ${data.question}</h2><h2>答: ${data.answer}</h2>`;
+                }
+            });
+        });
+
+        document.querySelectorAll('.history-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const recordId = this.getAttribute('data-id');
+                fetch(`/history/${recordId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        const responseDiv = document.getElementById('response');
+                        responseDiv.innerHTML = `<h2>问: ${data.question}</h2><h2>答: ${data.answer}</h2>`;
+                    }
+                });
+            });
+        });
+
+        // 侧边栏展开收起功能
+        document.getElementById('menu-icon').addEventListener('click', function() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            if (sidebar.style.width === '0px') {
+                sidebar.style.width = '20%';
+                mainContent.style.width = '80%';
+                sidebar.querySelector('.sidebar-header h2').style.display = 'block';
+                sidebar.querySelector('#search').style.display = 'block';
+                sidebar.querySelector('#history-list').style.display = 'block';
+            } else {
+                sidebar.style.width = '0px';
+                mainContent.style.width = '100%';
+                sidebar.querySelector('.sidebar-header h2').style.display = 'none';
+                sidebar.querySelector('#search').style.display = 'none';
+                sidebar.querySelector('#history-list').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

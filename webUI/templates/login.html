@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div>
+        <div class="title">邮邮助手</div>
+        <form id="loginForm" method="POST" action="{{ url_for('login') }}" onsubmit="return validateForm()">
+            <div class="container">
+                <input type="text" name="username" placeholder="账号">
+            </div>
+            <div class="container" style="margin-top: 20px;">
+                <input type="password" name="password" placeholder="密码">
+            </div>
+            <button type="submit" style="margin-top: 20px;">登陆</button>
+            <div class="text highlight" style="margin-top: 20px;">
+                没有账号？ <span class="highlight">注册</span>
+            </div>
+        </form>
+
+        <div class="icon-container">
+            <div class="icon wechat" onclick="wechatLogin()"></div>
+        </div>
+
+        <div class="agreement-container">
+            <input type="checkbox" id="agreement">
+            <label for="agreement" class="agreement">我已同意相关服务协议和隐私政策</label>
+        </div>
+    </div>
+
+    <script>
+        function validateForm() {
+            const agreementCheckbox = document.getElementById('agreement');
+            if (!agreementCheckbox.checked) {
+                alert('请同意用户协议');
+                return false;
+            }
+            return true;
+        }
+
+        function wechatLogin() {
+            const agreementCheckbox = document.getElementById('agreement');
+            if (!agreementCheckbox.checked) {
+                alert('请同意用户协议');
+                return;
+            }
+            // 这里假设跳转到微信登录页面，实际需要根据你的微信登录逻辑进行调整
+            window.location.href = '/wechat_login';
+        }
+    </script>
+</body>
+</html>
