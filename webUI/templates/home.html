@@ -23,11 +23,12 @@
             </div>
         </div>
         <div class="main-content expanded" id="main-content">
-            <h1>💬 邮邮助手</h1>
+            <h1>邮邮助手</h1>
             <form id="question-form">
-                <label for="question">输入您的问题并按回车发送</label><br>
-                <input type="text" id="question" name="question"><br><br>
-                <input type="submit" value="发送">
+                <textarea id="question" name="question" placeholder="请输入问题，回车发送"></textarea>
+                <button type="submit" id="submit-button">
+                    <img src="{{ url_for('static', filename='images/arrow.png') }}" alt="Submit">
+                </button>
             </form>
             <div id="response">
                 {% if question and answer %}
@@ -41,7 +42,14 @@
     <script>
         document.getElementById('question-form').addEventListener('submit', function(event) {
             event.preventDefault();
-            const question = document.getElementById('question').value;
+            const textarea = document.getElementById('question');
+            const question = textarea.value;
+            const submitButton = document.getElementById('submit-button');
+            const submitButtonImage = submitButton.querySelector('img');
+
+            // 显示加载状态
+            submitButtonImage.src = "{{ url_for('static', filename='images/loading.png') }}"; // 替换为加载状态的图片
+
             fetch('/ask', {
                 method: 'POST',
                 headers: {
@@ -59,6 +67,18 @@
                     const responseDiv = document.getElementById('response');
                     responseDiv.innerHTML = `<h2>问: ${data.question}</h2><h2>答: ${data.answer}</h2>`;
                 }
+                // 恢复箭头状态
+                submitButtonImage.src = "{{ url_for('static', filename='images/arrow.png') }}";
+                // 清空输入框
+                textarea.value = '';
+                textarea.style.height = 'auto';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('提交问题时出错，请稍后再试。');
+
+                // 恢复箭头状态
+                submitButtonImage.src = "{{ url_for('static', filename='images/arrow.png') }}";
             });
         });
 
@@ -86,9 +106,20 @@
             mainContent.classList.toggle('collapsed');
             // 更新内容显示
             const isCollapsed = sidebar.classList.contains('collapsed');
+            document.querySelector('.sidebar-title').style.display = isCollapsed ? 'none' : 'block';
             document.getElementById('search').style.display = isCollapsed ? 'none' : 'block';
             document.getElementById('history-list').style.display = isCollapsed ? 'none' : 'block';
-            document.querySelector('.sidebar-title').style.display = isCollapsed ? 'none' : 'block';
+        });
+
+        // 自动调整文本区域高度
+        const textarea = document.getElementById('question');
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight > this.clientHeight ? this.scrollHeight : this.clientHeight) + 'px';
+            if (this.scrollHeight > 5 * parseFloat(getComputedStyle(this).lineHeight)) {
+                this.style.height = (5 * parseFloat(getComputedStyle(this).lineHeight)) + 'px';
+                this.style.overflowY = 'scroll';
+            }
         });
     </script>
 </body>

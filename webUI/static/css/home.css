@@ -19,16 +19,16 @@ body {
 .sidebar {
     width: 20%;
     background: rgba(218, 229, 236, 0.5);
-    box-shadow: 1px 4px 4px rgba(74, 103, 124, 0.22);
-    border-radius: 0 10px 10px 0;
-    padding: 10px;
+    box-shadow: 0.0625rem 0.25rem 0.25rem rgba(74, 103, 124, 0.22);
+    border-radius: 0 0.625rem 0.625rem 0;
+    padding: 0.625rem;
     overflow-y: hidden;
     transition: width 0.3s;
     position: relative;
 }
 
 .sidebar.collapsed {
-    width: 40px; /* 保留按钮宽度 */
+    width: 2.5rem; /* 保留按钮宽度 */
     overflow: hidden;
 }
 
@@ -44,56 +44,56 @@ body {
 }
 
 .menu-icon {
-    width: 32px;
-    height: 32px;
+    width: 2rem;
+    height: 2rem;
     opacity: 0.7;
     cursor: pointer;
-    margin-right: 10px;
+    margin-right: 0.625rem;
 }
 
 .sidebar-title {
     position: absolute;
-    width: 64px;
-    height: 19px;
-    left: 13px;
-    top: 80px;
+    width: 4rem;
+    height: 1.1875rem;
+    left: 0.8125rem;
+    top: 5rem;
     font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
+    font-size: 1rem;
+    line-height: 1.1875rem;
     color: #A5B7C4;
     margin: 0;
 }
 
 #search {
     position: absolute;
-    width: 218px;
-    height: 29px;
-    left: 13px;
-    top: 115px;
+    width: 13.625rem;
+    height: 1.8125rem;
+    left: 0.8125rem;
+    top: 7.1875rem;
     background: rgba(255, 255, 255, 0.5);
-    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
-    border-radius: 11px;
+    box-shadow: 0 0.0625rem 0.0625rem rgba(0, 0, 0, 0.25);
+    border-radius: 0.6875rem;
     border: none;
-    padding: 10px;
+    padding: 0.625rem;
 }
 
 #history-list {
     position: absolute;
-    top: 160px;
-    bottom: 10px;
+    top: 10rem;
+    bottom: 0.625rem;
     left: 0;
     right: 0;
-    padding: 10px;
+    padding: 0.625rem;
     overflow-y: auto;
 }
 
 .history-item {
     background: rgba(212, 237, 255, 0.4);
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
+    padding: 0.625rem;
+    margin: 0.625rem 0;
+    border-radius: 0.3125rem;
     cursor: pointer;
 }
 
@@ -103,14 +103,14 @@ body {
 
 .main-content {
     width: 80%;
-    padding: 20px;
+    padding: 1.25rem;
     text-align: center;
     transition: width 0.3s, left 0.3s;
     position: relative;
 }
 
 .main-content.collapsed {
-    width: calc(100% - 40px);
+    width: calc(100% - 2.5rem);
 }
 
 .main-content:not(.collapsed) {
@@ -118,36 +118,96 @@ body {
 }
 
 h1 {
-    font-size: 48px;
-    color: #364A58;
+    position: absolute;
+    width: 9.375rem;
+    height: 2.4375rem;
+    left: 6.25rem;
+    top: 1.5625rem;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 2.4375rem;
+    letter-spacing: 0.11em;
+
+    color: #819BAE;
 }
 
 form {
-    margin-top: 20px;
+    margin-top: 1.25rem;
 }
 
 input[type="text"] {
     width: 80%;
-    padding: 10px;
-    font-size: 18px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    padding: 0.625rem;
+    font-size: 1.125rem;
+    margin-bottom: 1.25rem;
+    border-radius: 0.3125rem;
+    border: 0.0625rem solid #ccc;
+    outline: none;
 }
 
+
+textarea {
+    position: absolute;
+    left: 6.25rem;
+    top: 34.375rem;
+    width: 80%;
+    height: 1.5rem;
+    padding: 0.625rem;
+    font-size: 1.125rem;
+    margin-bottom: 1.25rem;
+    background: #FAFAFA;
+    box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.25);
+    border-radius: 1.1875rem;
+    outline: none;
+    max-height: calc(1.5rem * 5); /* 设置最大高度为5行 */
+}
+
+textarea::placeholder {
+    color: rgba(164, 164, 164, 0.5);
+    font-size: 1.2rem;
+    line-height: 1.8125rem;
+    letter-spacing: 0.14em;
+}
 input[type="submit"] {
     background: rgba(77, 139, 184, 0.68);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 13px;
+    box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+    border-radius: 0.8125rem;
     border: none;
-    font-size: 28px;
+    font-size: 1.75rem;
     color: #FFFFFF;
     cursor: pointer;
-    padding: 10px 20px;
+    padding: 0.625rem 1.25rem;
+}
+
+#submit-button {
+    position: absolute;
+    width: 2.375rem;
+    height: 2.1875rem;
+    left: 55.625rem;
+    top: 34.6875rem;
+    background: rgba(238, 238, 238, 0.55);
+    box-shadow: 0 0.0625rem 0.0625rem rgba(0, 0, 0, 0.25);
+    border-radius: 1.8125rem;
+    border: none;
+    cursor: pointer;
+    align-items: center;
+}
+
+#submit-button img {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+#submit-button.loading img {
+    width: 2rem;
+    height: 2rem;
 }
 
 #response {
-    margin-top: 20px;
+    margin-top: 1.25rem;
     text-align: left;
     width: 80%;
 }
