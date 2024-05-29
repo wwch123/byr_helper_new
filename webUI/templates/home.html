@@ -30,11 +30,17 @@
                     <img src="{{ url_for('static', filename='images/arrow.png') }}" alt="Submit">
                 </button>
             </form>
-            <div id="response">
-                {% if question and answer %}
-                    <h2>问: {{ question }}</h2>
-                    <h2>答: {{ answer }}</h2>
-                {% endif %}
+            <div id="response-container">
+                <div id="response">
+                    {% if question and answer %}
+                        <div class="response-box">
+                            <p>{{ question }}</p>
+                        </div>
+                        <div class="answer">
+                            <p>{{ answer }}</p>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
@@ -42,6 +48,17 @@
     <script>
         document.getElementById('question-form').addEventListener('submit', function(event) {
             event.preventDefault();
+            sendQuestion();
+        });
+
+        document.getElementById('question').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendQuestion();
+            }
+        });
+
+        function sendQuestion() {
             const textarea = document.getElementById('question');
             const question = textarea.value;
             const submitButton = document.getElementById('submit-button');
@@ -65,13 +82,19 @@
                     alert(data.error);
                 } else {
                     const responseDiv = document.getElementById('response');
-                    responseDiv.innerHTML = `<h2>问: ${data.question}</h2><h2>答: ${data.answer}</h2>`;
+                    responseDiv.innerHTML = `
+                        <div class="response-box">
+                            <p>${data.question}</p>
+                        </div>
+                        <div class="answer">
+                            <p>${data.answer}</p>
+                        </div>`;
                 }
                 // 恢复箭头状态
                 submitButtonImage.src = "{{ url_for('static', filename='images/arrow.png') }}";
                 // 清空输入框
                 textarea.value = '';
-                textarea.style.height = 'auto';
+                textarea.style.height = '1.5rem';
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -80,7 +103,7 @@
                 // 恢复箭头状态
                 submitButtonImage.src = "{{ url_for('static', filename='images/arrow.png') }}";
             });
-        });
+        }
 
         document.querySelectorAll('.history-item').forEach(item => {
             item.addEventListener('click', function() {
@@ -92,7 +115,13 @@
                         alert(data.error);
                     } else {
                         const responseDiv = document.getElementById('response');
-                        responseDiv.innerHTML = `<h2>问: ${data.question}</h2><h2>答: ${data.answer}</h2>`;
+                        responseDiv.innerHTML = `
+                            <div class="response-box">
+                                <p>${data.question}</p>
+                            </div>
+                            <div class="answer">
+                                <p>${data.answer}</p>
+                            </div>`;
                     }
                 });
             });
@@ -114,10 +143,10 @@
         // 自动调整文本区域高度
         const textarea = document.getElementById('question');
         textarea.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight > this.clientHeight ? this.scrollHeight : this.clientHeight) + 'px';
+            this.style.height = '1.5rem';
+            this.style.height = (this.scrollHeight > this.clientHeight ? this.scrollHeight : this.clientHeight) -20+ 'px';
             if (this.scrollHeight > 5 * parseFloat(getComputedStyle(this).lineHeight)) {
-                this.style.height = (5 * parseFloat(getComputedStyle(this).lineHeight)) + 'px';
+                this.style.height = (5 * parseFloat(getComputedStyle(this).lineHeight)) -20+ 'px';
                 this.style.overflowY = 'scroll';
             }
         });
