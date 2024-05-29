@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify, Markup
 import pymysql
 import bcrypt
 from datetime import datetime
-from zhipuai import ZhipuAI
+import markdown
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # 替换为你的实际密钥
@@ -35,7 +35,7 @@ def get_history(user_id):
     connection = connect_db()
     try:
         with connection.cursor() as cursor:
-            sql = "SELECT id, question, answer, timestamp FROM history WHERE user_id = %s"
+            sql = "SELECT id, question, answer, timestamp FROM history WHERE user_id = %s ORDER BY timestamp DESC"
             cursor.execute(sql, (user_id,))
             result = cursor.fetchall()
             return result
@@ -118,6 +118,12 @@ def get_answer(user_input, api_key):
     )
     return response.choices[0].message.content
 
+# Markdown 转 HTML 方法
+def md_to_html(md_content):
+    exts = ['markdown.extensions.extra', 'markdown.extensions.codehilite', 'markdown.extensions.tables', 'markdown.extensions.toc']
+    html = markdown.markdown(md_content, extensions=exts)
+    return Markup(html)
+
 @app.route('/')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -156,9 +162,10 @@ def ask():
 
     question = request.form.get('question')
     if question:
-        answer = get_answer(question, zhipuai_API_KEY)
-        add_history(session['user_id'], question, answer)
-        return jsonify({"question": question, "answer": answer})
+        answer_md = get_answer(question, zhipuai_API_KEY)
+        answer_html = md_to_html(answer_md)
+        add_history(session['user_id'], question, answer_md)
+        return jsonify({"question": question, "answer": answer_html})
 
     return jsonify({"error": "未能获取问题。"})
 
@@ -174,6 +181,7 @@ def get_history_record(record_id):
             cursor.execute(sql, (record_id, session['user_id']))
             result = cursor.fetchone()
             if result:
+                result['answer'] = md_to_html(result['answer'])
                 return jsonify(result)
             else:
                 return jsonify({"error": "未找到历史记录。"})

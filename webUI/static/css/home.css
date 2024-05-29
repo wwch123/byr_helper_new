@@ -242,10 +242,10 @@ input[type="submit"] {
 }
 
 .answer {
-    font-size: 20px;
-    line-height: 2rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
     color: #5A6871;
-    margin-top: 1rem;
+    margin-top: 0rem;
     max-width: 70%;
     word-wrap: break-word;
     white-space: pre-wrap;

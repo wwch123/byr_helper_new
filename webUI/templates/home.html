@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>邮邮助手</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.css">
 </head>
 <body>
     <div class="container">
@@ -13,7 +14,7 @@
                 <img src="{{ url_for('static', filename='images/liebiao.png') }}" alt="Menu" class="menu-icon" id="menu-icon">
                 <h2 class="sidebar-title">历史记录</h2>
             </div>
-            <input type="text" id="search" placeholder="搜索历史记录">
+            <input type="text" id="search" placeholder="搜索历史记录" onkeydown="if (event.key === 'Enter') searchHistory()">
             <div id="history-list">
                 {% for record in history %}
                     <div class="history-item" data-id="{{ record.id }}">
@@ -37,7 +38,7 @@
                             <p>{{ question }}</p>
                         </div>
                         <div class="answer">
-                            <p>{{ answer }}</p>
+                            {{ answer|safe }}
                         </div>
                     {% endif %}
                 </div>
@@ -87,7 +88,7 @@
                             <p>${data.question}</p>
                         </div>
                         <div class="answer">
-                            <p>${data.answer}</p>
+                            ${data.answer}
                         </div>`;
                 }
                 // 恢复箭头状态
@@ -120,7 +121,7 @@
                                 <p>${data.question}</p>
                             </div>
                             <div class="answer">
-                                <p>${data.answer}</p>
+                                ${data.answer}
                             </div>`;
                     }
                 });
@@ -150,6 +151,35 @@
                 this.style.overflowY = 'scroll';
             }
         });
+
+        // 搜索历史记录功能
+        function searchHistory() {
+            const searchInput = document.getElementById('search').value.trim().toLowerCase();
+            const historyList = document.getElementById('history-list');
+            const historyItems = historyList.querySelectorAll('.history-item');
+            let found = false;
+
+            if (searchInput === "") {
+                historyItems.forEach(item => {
+                    item.style.display = 'block';
+                });
+                return;
+            }
+
+            historyItems.forEach(item => {
+                const question = item.querySelector('p').innerText.toLowerCase();
+                if (question.includes(searchInput)) {
+                    item.style.display = 'block';
+                    found = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            if (!found) {
+                historyList.innerHTML = '<p>没有符合要求的历史记录。</p>';
+            }
+        }
     </script>
 </body>
 </html>
