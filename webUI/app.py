@@ -137,9 +137,11 @@ def login():
         action, user_info = register_or_login(username, password)
         if action == 'login':
             session['user_id'] = user_info
+            session['username'] = username  # Add username to session
             return jsonify({"status": "success", "message": "登录成功"})
         elif action == 'register':
             session['user_id'] = user_info
+            session['username'] = username  # Add username to session
             return jsonify({"status": "success", "message": "注册成功"})
         elif action == 'error':
             return jsonify({"status": "error", "message": user_info})
@@ -154,6 +156,27 @@ def home():
 
     user_history = get_history(session['user_id'])
     return render_template('home.html', history=user_history)
+
+@app.route('/baoyan')
+def baoyan():
+    if 'user_id' not in session:
+        flash("请登录以查看保研信息。", "warning")
+        return redirect(url_for('login'))
+    return render_template('baoyan.html')
+
+@app.route('/shixi')
+def shixi():
+    if 'user_id' not in session:
+        flash("请登录以查看实习信息。", "warning")
+        return redirect(url_for('login'))
+    return render_template('shixi.html')
+
+@app.route('/longtext')
+def longtext():
+    if 'user_id' not in session:
+        flash("请登录以查看长文本生成页面。", "warning")
+        return redirect(url_for('login'))
+    return render_template('longtext.html')
 
 @app.route('/ask', methods=['POST'])
 def ask():

@@ -4,9 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69fb7dac-7080-42d4-84dc-fd0f7548586b" name="Changes" comment="">
+    <list default="true" id="69fb7dac-7080-42d4-84dc-fd0f7548586b" name="Changes" comment="有md没有LaTeX">
+      <change afterPath="$PROJECT_DIR$/heiheapp.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internship_info/Agent_analysis.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internship_info/Agent_whether_suitable.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internship_info/Agent_whether_suitable_double_check.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internship_info/answer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/long_essay_generator/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mainww.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postgraduate_info/Agent_analysis.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postgraduate_info/Agent_whether_suitable.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postgraduate_info/Agent_whether_suitable_double_check.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postgraduate_info/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postgraduate_info/answer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webUI/templates/baoyan.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webUI/templates/longtext.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webUI/templates/shixi.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI_agent_powered_by_zhipuai/Agent_01_classify_questions.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI_agent_powered_by_zhipuai/Agent_01_classify_questions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI_agent_powered_by_zhipuai/Agent_04_memory.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI_agent_powered_by_zhipuai/Agent_04_memory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI_agent_powered_by_zhipuai/Agent_condense_the_content.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI_agent_powered_by_zhipuai/Agent_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI_agent_powered_by_zhipuai/Agent_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI_agent_powered_by_zhipuai/character_ai_test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database_operation.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_operation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/user_history.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/user_history.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webUI/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/webUI/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webUI/static/css/home.css" beforeDir="false" afterPath="$PROJECT_DIR$/webUI/static/css/home.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webUI/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/webUI/templates/home.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +43,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -26,26 +53,76 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2eVJ2DDQ1AdGNIQFlvfWO9Cuzxr" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "F:/byr_helper",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Mundus/university/daerxia/程序设计综合实验/byr_helper_new/postgraduate_info&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
-  <component name="RunManager">
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Mundus\university\daerxia\程序设计综合实验\byr_helper_new\postgraduate_info" />
+      <recent name="C:\Mundus\university\daerxia\程序设计综合实验\byr_helper_new\internship_info" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.answer (1)">
+    <configuration name="answer (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="byr_helper" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/postgraduate_info" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/postgraduate_info/answer.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="answer" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="byr_helper" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/internship_info" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/internship_info/answer.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="caogaohhz" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="byr_helper" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -57,6 +134,28 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/caogaohhz.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="byr_helper" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.11 (base)" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -66,6 +165,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.answer (1)" />
+        <item itemvalue="Python.answer" />
+        <item itemvalue="Python.caogaohhz" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -76,6 +182,81 @@
       <option name="presentableId" value="Default" />
       <updated>1711983602384</updated>
     </task>
+    <task id="LOCAL-00001" summary="5.9上传了streamlit文件">
+      <option name="closed" value="true" />
+      <created>1715249310924</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1715249310924</updated>
+    </task>
+    <task id="LOCAL-00002" summary="hhz的streamlit网页最新版5.16日">
+      <option name="closed" value="true" />
+      <created>1715823404428</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1715823404428</updated>
+    </task>
+    <task id="LOCAL-00003" summary="flask网页应用">
+      <option name="closed" value="true" />
+      <created>1716515043079</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1716515043079</updated>
+    </task>
+    <task id="LOCAL-00004" summary="flask网页应用">
+      <option name="closed" value="true" />
+      <created>1716528497362</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1716528497362</updated>
+    </task>
+    <task id="LOCAL-00005" summary="侧边栏及login界面正常">
+      <option name="closed" value="true" />
+      <created>1716531123339</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1716531123339</updated>
+    </task>
+    <task id="LOCAL-00006" summary="侧边栏,输入框正常">
+      <option name="closed" value="true" />
+      <created>1716710563603</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1716710563603</updated>
+    </task>
+    <task id="LOCAL-00007" summary="历史记录展示正产，但是没有md和LaTeX">
+      <option name="closed" value="true" />
+      <created>1716952290306</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1716952290306</updated>
+    </task>
+    <task id="LOCAL-00008" summary="有md没有LaTeX">
+      <option name="closed" value="true" />
+      <created>1716968467495</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1716968467495</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="5.9上传了streamlit文件" />
+    <MESSAGE value="hhz的streamlit网页最新版5.16日" />
+    <MESSAGE value="flask网页应用" />
+    <MESSAGE value="侧边栏及login界面正常" />
+    <MESSAGE value="侧边栏,输入框正常" />
+    <MESSAGE value="历史记录展示正产，但是没有md和LaTeX" />
+    <MESSAGE value="有md没有LaTeX" />
+    <option name="LAST_COMMIT_MESSAGE" value="有md没有LaTeX" />
   </component>
 </project>

@@ -37,9 +37,8 @@ background_info='''
 
 ## Initialization
 您好！作为信息提取专家，我专注于从文本中准确提取和凝练关键信息。请提供您希望我分析的文本，我会为您提炼出核心要点。
-
-
 '''
+
 def store_memory(user_input,zhipuai_API_KEY):
     user_input=user_input
     if user_input=='':print('输入为空，请重新输入')

@@ -133,55 +133,90 @@ def get_answer(user_input, api_key):
 
 # Streamlit UI
 def main():
-    create_tables()  # 确保在启动应用前表已创建
-    st.title("💬 邮邮助手")
-    #menu = ['邮邮问答助手', '登录/注册', '查看历史记录']
-    #choice = st.sidebar.selectbox("菜单", menu)
-    # 定制CSS样式
+    create_tables()
     st.markdown("""
             <style>
-            /* targeting all select elements within sidebar */
-            div.stSidebar div[role="listbox"] {
-                font-family: 'Helvetica' !important;  /* 强制使用指定字体 */
-                font-size: 40px !important;  /* 强制使用指定字体大小 */
-            }
+                .main-title {
+                    
+                    font-size: 3em;
+                    font-weight: bold;
+                    text-align: center;
+                    color: #070707;
+                }
+                .maintitle-label {
+                    margin-top: -50px;
+                }
+                .sub-title {
+                    font-family: 'STXingkai',
+                    font-size: 1em;
+                    font-weight: normal;
+                    margin-bottom: 0px;
+                    color: #898B8D;
+                }
+                .stButton>button {
+                    font-size: 1em;
+                    padding: 10px 20px;
+                    background-color: #070707;
+                    border: none;
+                    color: white;
+                    border-radius: 5px;
+                }
+                .stButton>button:hover {
+                    background-color: #45a049;
+                }
+                .sidebar .sidebar-content {
+                    font-size: 1.2em;
+                }
+                /* 调整selectbox和标题之间的间距 */
+                .selectbox-label {
+                    margin-bottom: -40px;
+                }
             </style>
-            """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
 
+    st.markdown("<div class='main-title maintitle-label'>💬 邮邮助手</div>", unsafe_allow_html=True)
+
+    # 在selectbox上方添加自定义样式的标题
+    st.sidebar.markdown("<div class='sub-title selectbox-label'>菜单</div>", unsafe_allow_html=True)
     menu = ['邮邮问答助手', '登录/注册', '查看历史记录']
-    choice = st.sidebar.selectbox("菜单", menu)
+    choice = st.sidebar.selectbox("",menu)
+
     if choice == '邮邮问答助手':
-        st.subheader("欢迎来到问答助手——你的AI辅导员")
+        st.markdown("<div class='sub-title'>欢迎来到问答助手——你的AI辅导员</div>", unsafe_allow_html=True)
         question = st.chat_input("输入您的问题并按回车发送")
         if question:
             answer = get_answer(question, zhipuai_API_KEY)
-            st.write(f"问：{question}")
-            st.write(f"答：{answer}")
+            st.markdown(f"**问**：{question}")
+            st.markdown(f"**答**：{answer}")
             if 'user_id' in st.session_state:
                 add_history(st.session_state['user_id'], question, answer)
             else:
                 st.warning("您当前尚未登录，该问答记录不会被保存到历史记录中~")
 
     elif choice == '登录/注册':
+        st.markdown("<div class='sub-title'>登录或注册</div>", unsafe_allow_html=True)
         username = st.sidebar.text_input("用户名")
         password = st.sidebar.text_input("密码", type='password')
         if st.sidebar.button("登录 / 注册"):
             action, user_info = register_or_login(username, password)
             if action == 'login':
                 st.success(f"成功登录，用户名为 {username}。用户ID: {user_info}")
-                st.session_state['user_id'] = user_info  # 存储用户ID
+                st.session_state['user_id'] = user_info
             elif action == 'register':
                 st.success(f"注册成功，用户名为 {username}。新用户ID: {user_info}")
-                st.session_state['user_id'] = user_info  # 存储用户ID
+                st.session_state['user_id'] = user_info
             elif action == 'error':
                 st.error(user_info)
 
     elif choice == '查看历史记录':
         if 'user_id' in st.session_state:
+            st.markdown("<div class='sub-title'>历史记录</div>", unsafe_allow_html=True)
             history = get_history(st.session_state['user_id'])
             if history:
                 for record in history:
-                    st.write(f"记录ID: {record['id']}, 问题: {record['question']}, 答案: {record['answer']}, 时间: {record['timestamp']}")
+                    with st.expander(f"问题：{record['question']}"):
+                        st.markdown(f"**答案**：{record['answer']}")
+                        st.markdown(f"**时间**：{record['timestamp']}")
             else:
                 st.write("未找到历史记录。")
         else:

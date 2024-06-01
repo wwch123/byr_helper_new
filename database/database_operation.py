@@ -1,18 +1,7 @@
-#数据库的基本信息，下面代码创建类的时候设有默认值
-'''
-db = pymysql.connect(host='117.78.9.167'
-                     , user="root"
-                     , passwd="Hhz200461"
-                     , port=3306
-                     , db="agent_data"  # 数据库名称
-                     , charset='utf8mb4'  # 字符编码
-                     )
-                     '''
-
 import pymysql
 
 class DatabaseManager(object):
-    def __init__(self, host='117.78.9.167', user="root", passwd="Hhz200461", port=3306, db="agent_data" , charset='utf8mb4'):
+    def __init__(self, host = '110.41.49.124' ,user = "root" ,passwd="@HWSJKmimashi111",port= 3306,db="byr_helper" ,charset='utf8'):
         self.host = host
         self.user = user
         self.passwd = passwd
@@ -21,7 +10,6 @@ class DatabaseManager(object):
         self.charset = charset
         self.connection = None
         self.cursor = None
-
     def connect(self):
         self.connection = pymysql.connect(
             host=self.host,
@@ -40,7 +28,7 @@ class DatabaseManager(object):
         self.cursor = self.connection.cursor()
         return self.cursor
 
-    def create_table(self, table_name):
+    def create_postgraduate_info_table(self, table_name='postgraduate_info'):
         if not self.cursor:
             self.create_cursor()
         # 检查数据库中是否已存在该表
@@ -50,13 +38,33 @@ class DatabaseManager(object):
             print(f"表 '{table_name}' 已经存在。")
         else:
             # 创建表
-            sql = f'''
-              CREATE TABLE {table_name}
-              (
-              KEY_ANSWER varchar(255),
-              WHOLE_ANSWER varchar(2047)
-              )
-              '''
+            sql = """
+                        CREATE TABLE IF NOT EXISTS postgraduate_info (
+                            serial_number INT PRIMARY KEY AUTO_INCREMENT,
+                            key_info VARCHAR(255),
+                            whole_info TEXT
+                        )
+                        """
+            self.cursor.execute(sql)
+            print(f"表 '{table_name}' 创建成功。")
+
+    def create_internship_info_table(self, table_name='internship_info'):
+        if not self.cursor:
+            self.create_cursor()
+        # 检查数据库中是否已存在该表
+        self.cursor.execute("SHOW TABLES LIKE %s", (table_name,))
+        result = self.cursor.fetchone()
+        if result:
+            print(f"表 '{table_name}' 已经存在。")
+        else:
+            # 创建表
+            sql = """
+                        CREATE TABLE IF NOT EXISTS internship_info (
+                            serial_number INT PRIMARY KEY AUTO_INCREMENT,
+                            key_info VARCHAR(255),
+                            whole_info TEXT
+                        )
+                        """
             self.cursor.execute(sql)
             print(f"表 '{table_name}' 创建成功。")
 
@@ -79,10 +87,23 @@ class DatabaseManager(object):
     def insert(self, table_name, key_answer, whole_answer):
         if not self.cursor:
             self.create_cursor()
-        sql = "INSERT INTO {} (KEY_ANSWER, WHOLE_ANSWER) VALUES (%s, %s)".format(table_name)
-        self.cursor.execute(sql, (key_answer, whole_answer))
+
+        # 获取当前表中最大的serial_number值
+        sql_max_serial_number = f"SELECT MAX(serial_number) FROM {table_name}"
+        self.cursor.execute(sql_max_serial_number)
+        max_serial_number = self.cursor.fetchone()[0]
+
+        # 确保serial_number是唯一的
+        if max_serial_number is not None:
+            serial_number = max_serial_number + 1
+        else:
+            serial_number = 1
+
+        # 构建SQL语句并执行插入操作
+        sql = "INSERT INTO {} (serial_number, key_info, whole_info) VALUES (%s, %s, %s)".format(table_name)
+        self.cursor.execute(sql, (serial_number, key_answer, whole_answer))
         self.connection.commit()
-        print(f"在表 '{table_name}' 中插入了一条记录。")
+        print(f"在表 '{table_name}' 中插入了一条记录。serial_number: {serial_number}")
 
     def query(self, table_name, condition=None):
         if not self.cursor:
@@ -110,10 +131,82 @@ class DatabaseManager(object):
         self.cursor.execute(sql)
         self.connection.commit()
         print(f"从表 '{table_name}' 中删除了记录。")
-# 使用示例
-'''
-db_manager = DatabaseManager('117.78.9.167', 'root', 'Hhz200461', 3306, 'agent_data')
-db_manager.create_table('answers')
-db_manager.show_tables()
-db_manager.close()
-'''
+
+    def get_form_content(self, table_name):
+        """
+        根据表单名称查询特定表单并打印表单内容
+        :param table_name: 表单名称
+        """
+        if not self.cursor:
+            self.create_cursor()
+
+        # 检查数据库中是否已存在该表
+        self.cursor.execute("SHOW TABLES LIKE %s", (table_name,))
+        result = self.cursor.fetchone()
+
+        if result:
+            # 查询表单内容
+            sql = f"SELECT * FROM {table_name}"
+            self.cursor.execute(sql)
+            form_content = self.cursor.fetchall()
+
+            print(f"表单 '{table_name}' 的内容如下：")
+            for content in form_content:
+                print(content)
+        else:
+            print(f"表单 '{table_name}' 不存在。")
+
+    def delete_all_tables(self):
+        if not self.cursor:
+            self.create_cursor()
+
+        # 获取所有表的列表
+        self.cursor.execute("SHOW TABLES")
+        tables = self.cursor.fetchall()
+
+        # 逐个删除表
+        for table in tables:
+            table_name = table[0]  # 表名在元组的第一个元素中
+            print(f"正在删除表 '{table_name}'...")
+            self.cursor.execute(f"DROP TABLE {table_name}")
+
+        # 提交更改
+        self.connection.commit()
+        print("所有表都已删除。")
+    def clear_table(self, table_name='postgraduate_info'):
+        if not self.cursor:
+            self.create_cursor()
+        sql = f"DELETE FROM {table_name}"
+        self.cursor.execute(sql)
+        self.connection.commit()
+        print(f"已清空表 '{table_name}' 中的所有记录。")
+
+    def entry_exists(self, title, clarified_content):
+        if not self.cursor:
+            self.create_cursor()
+        self.cursor.execute("SELECT COUNT(*) FROM postgraduate_info WHERE title = %s AND condensed_content = %s", (title, clarified_content))
+        if self.cursor.fetchone()[0] > 0:
+            return True
+        else:
+            return False
+
+    def get_postgraduate_info_by_serial_number(self, serial_number):
+        try:
+            if not self.cursor:
+                self.create_cursor()
+            # 查询指定serial_number的记录
+            sql = "SELECT key_info, whole_info FROM postgraduate_info WHERE serial_number = %s"
+            self.cursor.execute(sql, (serial_number,))
+            result = self.cursor.fetchone()
+            if result:
+                key_info, whole_info = result
+                return key_info, whole_info
+            else:
+                print(f"没有找到serial_number为{serial_number}的记录。")
+                return None, None
+        except pymysql.MySQLError as e:
+            print(f"数据库操作出错：{e}")
+            return None, None
+        except Exception as e:
+            print(f"发生未知错误：{e}")
+            return None, None

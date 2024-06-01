@@ -1,4 +1,5 @@
-zhipuai_API_KEY="9d55fe81e5d814d15a178b6884fd4566.KeHWIwzewSoR0EQS"
+zhipuai_API_KEY='78d4d54ffce51ba65a99e12a87e2c1e2.NXKksWcbl2LBaYqy'#hhz新API key 有效期到2024.6.10
+
 
 import time
 from zhipuai import ZhipuAI
@@ -14,10 +15,9 @@ else:
             #{"role": "system", "content": background_info},
             {"role": "user", "content": user_input}
         ],
-        max_tokens=300
+        max_tokens=500
     )
 
-for i in range(10):
+
     print(response)
-    time.sleep(0.1)
 
