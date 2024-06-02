@@ -35,7 +35,9 @@
                 </div>
                 <div id="button-group-11">
                     <div id="rectangle-4">
-                        <a href="{{ url_for('baoyan') }}" class="button"><span>获取保研信息</span></a>
+                        <form action="{{ url_for('baoyan') }}" method="POST" style="display: inline;">
+                            <a href="{{ url_for('baoyan') }}" class="button"><span>获取保研信息</span></a>
+                        </form>
                     </div>
                 </div>
                 <div id="button-group-12">

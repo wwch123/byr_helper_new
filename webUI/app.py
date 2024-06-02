@@ -1,13 +1,24 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify, Markup
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify, Markup, send_from_directory
 import pymysql
 import bcrypt
 from datetime import datetime
 import markdown
+from concurrent.futures import ThreadPoolExecutor
+from docx import Document
+import re
+import sys
+import os
+
+# 确保工程根目录在系统路径中
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from long_essay_generator.AI_Agents import Agent_outline, Agent_heading, Agent_paragraph
+from postgraduate_info.answer import main_func, get_new_flag
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # 替换为你的实际密钥
 
-zhipuai_API_KEY = '78d4d54ffce51ba65a99e12a87e2c1e2.NXKksWcbl2LBaYqy'
+zhipuai_API_KEY='a1c585c7b8106e12b92ceae99026a2cd.frA1fHlR0O4lyba4'
+
 
 # 数据库配置
 config = {
@@ -108,21 +119,114 @@ def create_tables():
 
 create_tables()
 
-def get_answer(user_input, api_key):
-    client = ZhipuAI(api_key=api_key)
-    response = client.chat.completions.create(
-        model="glm-4",
-        messages=[
-            {"role": "user", "content": user_input}
-        ]
-    )
-    return response.choices[0].message.content
 
 # Markdown 转 HTML 方法
 def md_to_html(md_content):
     exts = ['markdown.extensions.extra', 'markdown.extensions.codehilite', 'markdown.extensions.tables', 'markdown.extensions.toc']
     html = markdown.markdown(md_content, extensions=exts)
     return Markup(html)
+
+def get_complex_outline(user_input):
+    outline = Agent_outline.get_complex_outline(user_input, zhipuai_API_KEY)
+    pattern = r'(^\d+\.\S*[^\n]*)|(\d+\.\d+\S*[^\n]*)|(\d+\.\d+\.\d+\S*[^\n]*)'
+    matches = re.findall(pattern, outline, re.MULTILINE)
+    sections = [''.join(match) for match in matches if any(match)]
+    return sections
+
+def get_simple_outline(user_input):
+    outline = Agent_outline.get_simple_outline(user_input, zhipuai_API_KEY)
+    pattern = r'(^\d+\.\S*[^\n]*)|(\d+\.\d+\S*[^\n]*)|(\d+\.\d+\.\d+\S*[^\n]*)'
+    matches = re.findall(pattern, outline, re.MULTILINE)
+    sections = [''.join(match) for match in matches if any(match)]
+    return sections
+
+def get_heading(user_input):
+    heading = Agent_heading.get_heading(user_input, zhipuai_API_KEY)
+    return heading
+
+def get_paragraph(outline, subheading):
+    paragraph = Agent_paragraph.get_paragraph(outline, subheading, zhipuai_API_KEY)
+    return paragraph
+
+def is_third_level_heading(sections, index):
+    if index + 1 < len(sections) and re.match(r'^\d+\.\d+\.\d+', sections[index + 1]):
+        return True
+    return False
+
+def is_second_level_heading(sections, index):
+    if index + 1 < len(sections) and re.match(r'^\d+\.\d+', sections[index + 1]):
+        return True
+    return False
+
+def generate_long_paper(user_input):
+    with ThreadPoolExecutor() as executor:
+        outline_future = executor.submit(get_simple_outline, user_input)
+        heading_future = executor.submit(get_heading, user_input)
+
+        outline = outline_future.result()
+        heading = heading_future.result()
+
+    doc = Document()
+    doc.add_heading(heading, level=0)
+
+    for index, section in enumerate(outline):
+        section = section.strip()
+        if re.search(r'^\d+\.\s*[^\d\s]', section):
+            if is_second_level_heading(outline, index):
+                doc.add_heading(section, level=1)
+            else:
+                paragraph = get_paragraph(outline, section)
+                doc.add_paragraph(paragraph)
+        elif re.search(r'^\d+\.\d+\.\d+', section):
+            doc.add_heading(section, level=3)
+            paragraph = get_paragraph(outline, section)
+            doc.add_paragraph(paragraph)
+        elif re.search(r'^\d+\.\d+\s*[^\d\s]', section):
+            if is_third_level_heading(outline, index):
+                doc.add_heading(section, level=2)
+            else:
+                doc.add_heading(section, level=2)
+                paragraph = get_paragraph(outline, section)
+                doc.add_paragraph(paragraph)
+
+    docx_path = f"output/{heading}.docx"
+    doc.save(docx_path)
+    return docx_path
+
+def generate_longlong_paper(user_input):
+    with ThreadPoolExecutor() as executor:
+        outline_future = executor.submit(get_complex_outline, user_input)
+        heading_future = executor.submit(get_heading, user_input)
+
+        outline = outline_future.result()
+        heading = heading_future.result()
+
+    doc = Document()
+    doc.add_heading(heading, level=0)
+
+    for index, section in enumerate(outline):
+        section = section.strip()
+        if re.search(r'^\d+\.\s*[^\d\s]', section):
+            if is_second_level_heading(outline, index):
+                doc.add_heading(section, level=1)
+            else:
+                paragraph = get_paragraph(outline, section)
+                doc.add_paragraph(paragraph)
+        elif re.search(r'^\d+\.\d+\.\d+', section):
+            doc.add_heading(section, level=3)
+            paragraph = get_paragraph(outline, section)
+            doc.add_paragraph(paragraph)
+        elif re.search(r'^\d+\.\d+\s*[^\d\s]', section):
+            if is_third_level_heading(outline, index):
+                doc.add_heading(section, level=2)
+            else:
+                doc.add_heading(section, level=2)
+                paragraph = get_paragraph(outline, section)
+                doc.add_paragraph(paragraph)
+
+    docx_path = f"output/{heading}.docx"
+    doc.save(docx_path)
+    return docx_path
 
 @app.route('/')
 @app.route('/login', methods=['GET', 'POST'])
@@ -157,26 +261,51 @@ def home():
     user_history = get_history(session['user_id'])
     return render_template('home.html', history=user_history)
 
-@app.route('/baoyan')
+
+@app.route('/baoyan', methods=['POST'])
 def baoyan():
+    question = request.form.get('question')
+    user_response = request.form.get('response')
+    if user_response is None:
+        response = main_func(question)
+    else:
+        response = main_func(question, user_response)
+
+    more_info_needed = any("请问您是否需要更多信息？" in item for item in response)
+
+    return jsonify({
+        "results": response,
+        "moreInfo": more_info_needed
+    })
+
+
+@app.route('/baoyan')
+def baoyan_page():
     if 'user_id' not in session:
         flash("请登录以查看保研信息。", "warning")
         return redirect(url_for('login'))
-    return render_template('baoyan.html')
 
+    user_history = get_history(session['user_id'])
+    return render_template('baoyan.html', history=user_history)
 @app.route('/shixi')
 def shixi():
     if 'user_id' not in session:
         flash("请登录以查看实习信息。", "warning")
         return redirect(url_for('login'))
-    return render_template('shixi.html')
+
+    user_history = get_history(session['user_id'])
+    return render_template('shixi.html', history=user_history)
+
 
 @app.route('/longtext')
 def longtext():
     if 'user_id' not in session:
         flash("请登录以查看长文本生成页面。", "warning")
         return redirect(url_for('login'))
-    return render_template('longtext.html')
+
+    user_history = get_history(session['user_id'])
+    return render_template('longtext.html', history=user_history)
+
 
 @app.route('/ask', methods=['POST'])
 def ask():
@@ -184,13 +313,23 @@ def ask():
         return jsonify({"error": "请登录以保存您的问答记录。"})
 
     question = request.form.get('question')
-    if question:
-        answer_md = get_answer(question, zhipuai_API_KEY)
-        answer_html = md_to_html(answer_md)
-        add_history(session['user_id'], question, answer_md)
-        return jsonify({"question": question, "answer": answer_html})
+    length = request.form.get('length')
 
-    return jsonify({"error": "未能获取问题。"})
+    if question and length:
+        if length == 'long':
+            docx_path = generate_long_paper(question)
+        elif length == 'longlong':
+            docx_path = generate_longlong_paper(question)
+        else:
+            return jsonify({"error": "无效的长度选项。"})
+
+        # 保存到历史记录表
+        answer = f"生成的文档路径: {docx_path}"
+        add_history(session['user_id'], question, answer)
+        download_url = url_for('download', filename=os.path.basename(docx_path))
+        return jsonify({"question": question, "url": download_url})
+
+    return jsonify({"error": "未能获取问题或长度选项。"})
 
 @app.route('/history/<int:record_id>')
 def get_history_record(record_id):
@@ -211,11 +350,15 @@ def get_history_record(record_id):
     finally:
         connection.close()
 
+@app.route('/download/<filename>', methods=['GET'])
+def download(filename):
+    return send_from_directory('output', filename)
+
 @app.route('/wechat_login')
 def wechat_login():
-    # 这里处理微信登录逻辑，跳转到微信登录页面或生成二维码
-    # 假设我们直接跳转到微信登录页面
     return redirect("https://open.weixin.qq.com/connect/qrconnect?appid=YOUR_APP_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect")
 
 if __name__ == '__main__':
+    if not os.path.exists('output'):
+        os.makedirs('output')
     app.run(debug=True)

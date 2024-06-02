@@ -28,22 +28,13 @@
         <div class="main-content expanded" id="main-content">
             <h1>邮邮助手</h1>
             <form id="question-form">
-                <textarea id="question" name="question" placeholder="请输入问题，回车发送"></textarea>
+                <textarea id="question" name="question" placeholder="请输入保研需求，回车发送"></textarea>
                 <button type="submit" id="submit-button">
                     <img src="{{ url_for('static', filename='images/arrow.png') }}" alt="Submit">
                 </button>
             </form>
             <div id="response-container">
-                <div id="response">
-                    {% if question and answer %}
-                        <div class="response-box">
-                            <p>{{ question }}</p>
-                        </div>
-                        <div class="answer">
-                            {{ answer|safe }}
-                        </div>
-                    {% endif %}
-                </div>
+                <div id="response"></div>
             </div>
         </div>
     </div>
@@ -70,7 +61,7 @@
             // 显示加载状态
             submitButtonImage.src = "{{ url_for('static', filename='images/loading.png') }}"; // 替换为加载状态的图片
 
-            fetch('/ask', {
+            fetch('/baoyan', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -87,11 +78,19 @@
                     const responseDiv = document.getElementById('response');
                     responseDiv.innerHTML = `
                         <div class="response-box">
-                            <p>${data.question}</p>
-                        </div>
-                        <div class="answer">
-                            ${data.answer}
+                            <p>${question}</p>
                         </div>`;
+                    data.results.forEach(result => {
+                        responseDiv.innerHTML += `
+                            <div class="answer">
+                                ${result}
+                            </div>`;
+                    });
+                    if (data.moreInfo) {
+                        document.getElementById('question').placeholder = "请输入'yes'或'no'";
+                    } else {
+                        document.getElementById('question').placeholder = "请输入保研需求，回车发送";
+                    }
                 }
                 // 恢复箭头状态
                 submitButtonImage.src = "{{ url_for('static', filename='images/arrow.png') }}";

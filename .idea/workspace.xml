@@ -4,35 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69fb7dac-7080-42d4-84dc-fd0f7548586b" name="Changes" comment="有md没有LaTeX">
-      <change afterPath="$PROJECT_DIR$/heiheapp.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internship_info/Agent_analysis.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internship_info/Agent_whether_suitable.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internship_info/Agent_whether_suitable_double_check.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internship_info/answer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/long_essay_generator/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mainww.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/postgraduate_info/Agent_analysis.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/postgraduate_info/Agent_whether_suitable.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/postgraduate_info/Agent_whether_suitable_double_check.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/postgraduate_info/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/postgraduate_info/answer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webUI/templates/baoyan.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webUI/templates/longtext.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webUI/templates/shixi.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="69fb7dac-7080-42d4-84dc-fd0f7548586b" name="Changes" comment="没分三个界面前">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI_agent_powered_by_zhipuai/Agent_01_classify_questions.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI_agent_powered_by_zhipuai/Agent_01_classify_questions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI_agent_powered_by_zhipuai/Agent_04_memory.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI_agent_powered_by_zhipuai/Agent_04_memory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI_agent_powered_by_zhipuai/Agent_condense_the_content.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI_agent_powered_by_zhipuai/Agent_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI_agent_powered_by_zhipuai/Agent_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI_agent_powered_by_zhipuai/character_ai_test.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/database_operation.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_operation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/user_history.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/user_history.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internship_info/answer.py" beforeDir="false" afterPath="$PROJECT_DIR$/internship_info/answer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postgraduate_info/answer.py" beforeDir="false" afterPath="$PROJECT_DIR$/postgraduate_info/answer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webUI/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/webUI/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webUI/static/css/home.css" beforeDir="false" afterPath="$PROJECT_DIR$/webUI/static/css/home.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webUI/templates/baoyan.html" beforeDir="false" afterPath="$PROJECT_DIR$/webUI/templates/baoyan.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webUI/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/webUI/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webUI/templates/longtext.html" beforeDir="false" afterPath="$PROJECT_DIR$/webUI/templates/longtext.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,8 +22,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -122,6 +102,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="caogao" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="byr_helper" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/postgraduate_info" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/postgraduate_info/caogao.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="caogaohhz" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="byr_helper" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -168,6 +169,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.answer (1)" />
+        <item itemvalue="Python.caogao" />
         <item itemvalue="Python.answer" />
         <item itemvalue="Python.caogaohhz" />
       </list>
@@ -246,7 +248,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716968467495</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="没分三个界面前">
+      <option name="closed" value="true" />
+      <created>1717256375715</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1717256375715</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -257,6 +267,7 @@
     <MESSAGE value="侧边栏,输入框正常" />
     <MESSAGE value="历史记录展示正产，但是没有md和LaTeX" />
     <MESSAGE value="有md没有LaTeX" />
-    <option name="LAST_COMMIT_MESSAGE" value="有md没有LaTeX" />
+    <MESSAGE value="没分三个界面前" />
+    <option name="LAST_COMMIT_MESSAGE" value="没分三个界面前" />
   </component>
 </project>

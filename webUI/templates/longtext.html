@@ -9,6 +9,7 @@
 </head>
 <body>
     <div class="container">
+
         <div class="user-avatar" id="user-avatar"></div>
         <div class="user-name" id="user-name">{{ session.get('username', '') }}</div>
         <div class="sidebar expanded" id="sidebar">
@@ -24,11 +25,20 @@
                     </div>
                 {% endfor %}
             </div>
+
         </div>
         <div class="main-content expanded" id="main-content">
-            <h1>邮邮助手</h1>
+            <h1>邮邮助手<span class="subtitle">长文本生成助手</span></h1>
             <form id="question-form">
                 <textarea id="question" name="question" placeholder="请输入问题，回车发送"></textarea>
+                <div class="length-selector">
+                    <label for="length">选择文本长度:</label>
+                    <select id="length" name="length">
+                        <option value="long">中等长度</option>
+                        <option value="longlong">超长长度</option>
+                    </select>
+                </div>
+
                 <button type="submit" id="submit-button">
                     <img src="{{ url_for('static', filename='images/arrow.png') }}" alt="Submit">
                 </button>
@@ -64,6 +74,7 @@
         function sendQuestion() {
             const textarea = document.getElementById('question');
             const question = textarea.value;
+            const length = document.getElementById('length').value;
             const submitButton = document.getElementById('submit-button');
             const submitButtonImage = submitButton.querySelector('img');
 
@@ -76,7 +87,8 @@
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: new URLSearchParams({
-                    'question': question
+                    'question': question,
+                    'length': length
                 })
             })
             .then(response => response.json())
@@ -90,8 +102,16 @@
                             <p>${data.question}</p>
                         </div>
                         <div class="answer">
-                            ${data.answer}
+                            <a href="${data.url}" download>点击下载生成的文档</a>
                         </div>`;
+
+                    // 更新历史记录
+                    const historyList = document.getElementById('history-list');
+                    const newHistoryItem = document.createElement('div');
+                    newHistoryItem.className = 'history-item';
+                    newHistoryItem.dataset.id = data.id; // Assuming data.id is returned from the server
+                    newHistoryItem.innerHTML = `<p>${new Date().toLocaleString()} - ${data.question}</p>`;
+                    historyList.insertBefore(newHistoryItem, historyList.firstChild);
                 }
                 // 恢复箭头状态
                 submitButtonImage.src = "{{ url_for('static', filename='images/arrow.png') }}";
@@ -107,6 +127,7 @@
                 submitButtonImage.src = "{{ url_for('static', filename='images/arrow.png') }}";
             });
         }
+
 
         document.querySelectorAll('.history-item').forEach(item => {
             item.addEventListener('click', function() {

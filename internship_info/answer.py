@@ -65,6 +65,28 @@ def get_suggestions(user_input,info):
         print(f"Error calling suitability agent: {e}")
         return None
 
+
+def get_new_flag():
+    try:
+        a = Agent_judge_whether_you_need_more.whether_need_more_info('请问您是否需要更多信息？', zhipuai_API_KEY)
+        if 'YES' in a:
+            flag=1
+        else:
+            flag = 0
+    except Exception as e:
+        print(f"Error calling need more info agent: {e}")
+        flag = 0
+    return flag
+
+
+def return_string(a):
+    return a
+
+
+def return_array(a):
+    return a
+
+
 #input: nothing (when you run the func, it will ask you to give the requirement of your further study
 #workflow: give the requirement->return the suggestions and the postgraguda->ask you whether need more info->...
 #output:plz design it by yourself
@@ -73,12 +95,14 @@ def main_func():
 
     serial_number = 0
     flag = 1
+    flag_1=0 #检查是否检索完所有数据库
     print('请输入你的技能以及期待的实习岗位')
+    return_string('请输入你的技能以及期待的实习岗位')
     user_input = input()
 
-    while flag == 1:
+    while flag == 1 and flag_1==0:
         answers = []
-        for i in range(5):
+        while len(answers)<4:
             serial_number += 1
             info = get_internship_info_from_database(db, serial_number)
             if info:
@@ -87,30 +111,26 @@ def main_func():
                 print(outcome_one+'   '+outcome_two)
                 if 'YES' in outcome_one and 'YES' in outcome_two:
                     suggestions=get_suggestions(user_input,info)
-                    answers.append(info[1]+'建议如下：\n'+suggestions)
+                    answers.append(info[1]+'\n\n——————————————__建议__——————————————\n'+suggestions)
 
         print('已为您找到以下匹配内容：')
+        return_string('已为您找到以下匹配内容：')
         print('***************************')
         print(answers)
         print('***************************')
+        for answer in answers:
+            return_string(answer)
 
-        if len(answers) == 0:
-
-            print('目前暂无匹配您需求的信息')
+        if len(answers) <3:
+            print('已全部检索完毕，无更多信息可查')
+            return_string('已全部检索完毕，无更多信息可查')
         else:
             for answer in answers:
                 print(Fore.RED + answer)
         print(Fore.RESET + '请问您是否需要更多信息？')
+        return_string('请问您是否需要更多信息？')
 
-        try:
-            a = Agent_judge_whether_you_need_more.whether_need_more_info('请问您是否需要更多信息？', zhipuai_API_KEY)
-            if 'YES' in a:
-                pass
-            else:
-                flag = 0
-        except Exception as e:
-            print(f"Error calling need more info agent: {e}")
-            flag = 0
+        flag=get_new_flag()
 
     try:
         db.cursor.close()
@@ -118,5 +138,6 @@ def main_func():
     except Exception as e:
         print(f"Error closing database resources: {e}")
 
-main_func()
 
+
+main_func()

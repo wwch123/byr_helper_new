@@ -1,16 +1,12 @@
 from AI_agent_powered_by_zhipuai import Agent_judge_whether_you_need_more
-from postgraduate_info import Agent_whether_suitable,Agent_whether_suitable_double_check,Agent_analysis
+from postgraduate_info import Agent_whether_suitable, Agent_whether_suitable_double_check, Agent_analysis
 from database import database_operation
 from colorama import init, Fore
 import sys
 
 zhipuai_API_KEY = 'a1c585c7b8106e12b92ceae99026a2cd.frA1fHlR0O4lyba4'
 init()
-'''
-instruction:
-1. The only func you need is main_func
-2. The way to use it i pointed next to the def as comment
-'''
+
 def get_postgraduate_info_from_database(db, serial_number):
     try:
         cursor = db.cursor
@@ -36,6 +32,7 @@ def get_database_object():
         db = database_operation.DatabaseManager()
         db.connect()
         db.create_cursor()
+        print("Database connection and cursor creation successful.")
         return db
     except Exception as e:
         print(f"Error connecting to database: {e}")
@@ -43,7 +40,8 @@ def get_database_object():
 
 def whether_suitable(user_input, info):
     try:
-        outcome = Agent_whether_suitable.whether_suitable(user_input,info[0])
+        outcome = Agent_whether_suitable.whether_suitable(user_input, info[0])
+        print(f"Suitability check 1: {outcome}")
         return outcome
     except Exception as e:
         print(f"Error calling suitability agent: {e}")
@@ -51,77 +49,75 @@ def whether_suitable(user_input, info):
 
 def whether_suitable_double_check(user_input, info):
     try:
-        outcome = Agent_whether_suitable_double_check.whether_suitable(user_input,info[0])
+        outcome = Agent_whether_suitable_double_check.whether_suitable(user_input, info[0])
+        print(f"Suitability check 2: {outcome}")
         return outcome
     except Exception as e:
         print(f"Error calling suitability agent: {e}")
         return "NO"
 
-def get_suggestions(user_input,info):
+def get_suggestions(user_input, info):
     try:
-        suggestions=Agent_analysis.get_suggestions(user_input,info[1])
+        suggestions = Agent_analysis.get_suggestions(user_input, info)
+        print(f"Suggestions: {suggestions}")
         return suggestions
     except Exception as e:
-        print(f"Error calling suitability agent: {e}")
+        print(f"Error calling analysis agent: {e}")
         return None
 
-#only return string
-def return_func(a):
-    return a
+def get_new_flag(user_response):
+    return 1 if user_response.lower() == 'yes' else 0
 
-
-#input: nothing (when you run the func, it will ask you to give the requirement of your further study
-#workflow: give the requirement->return the suggestions and the postgraguda->ask you whether need more info->...
-#output:plz design it by yourself
-def main_func():
+def main_func(user_input, user_response=None):
     db = get_database_object()
-
+    results = []
     serial_number = 0
-    flag = 1
-    print('请输入你的保研需求')
-    user_input = input()
-
-    while flag == 1:
-        answers = []
-        for i in range(5):
-            serial_number += 1
-            info = get_postgraduate_info_from_database(db, serial_number)
-            if info:
-                outcome_one = whether_suitable(user_input, info)
-                outcome_two = whether_suitable_double_check(user_input,info)
-                print(outcome_one+'   '+outcome_two)
-                if 'YES' in outcome_one and 'YES' in outcome_two:
-                    suggestions=get_suggestions(user_input,info[1])
-                    answers.append(info[1]+'建议如下：\n'+suggestions)
-
-        print('已为您找到以下匹配内容：')
-        print('11***************************')
-        print(answers)
-        print('11***************************')
-
-        if len(answers) == 0:
-            print('目前暂无匹配您需求的信息')
-            return_func('目前暂无匹配您需求的信息')
-        else:
-            for answer in answers:
-                print(Fore.RED + answer)
-        print(Fore.RESET + '请问您是否需要更多信息？')
-
-        try:
-            a = Agent_judge_whether_you_need_more.whether_need_more_info('请问您是否需要更多信息？', zhipuai_API_KEY)
-            if 'YES' in a:
-                pass
-            else:
-                flag = 0
-        except Exception as e:
-            print(f"Error calling need more info agent: {e}")
-            flag = 0
+    flag = 1 if user_response is None else get_new_flag(user_response)
+    flag_1 = 0 #检查是否检索完所有数据库
+    print('Processing postgraduate application requirements...')
 
     try:
-        db.cursor.close()
-        db.connection.close()
+        while flag == 1 and flag_1 == 0:
+            answers = []
+            while len(answers) < 2:
+                serial_number += 1
+                info = get_postgraduate_info_from_database(db, serial_number)
+                if info:
+                    outcome_one = whether_suitable(user_input, info)
+                    outcome_two = whether_suitable_double_check(user_input, info)
+                    print(outcome_one + '   ' + outcome_two)
+                    if 'YES' in outcome_one and 'YES' in outcome_two:
+                        suggestions = get_suggestions(user_input, info[1])
+                        answers.append(info[1] + '\n\n——————————————__建议__——————————————\n' + suggestions)
+
+            print('已为您找到以下匹配内容：')
+            results.append('已为您找到以下匹配内容：')
+            results.extend(answers)
+            print('***************************')
+            print(results)
+            print('***************************')
+
+            if len(answers) < 1:
+                print('已全部检索完毕，无更多信息可查')
+                results.append('已全部检索完毕，无更多信息可查')
+                flag_1 = 1
+            else:
+                results.append('请问您是否需要更多信息？')
+                flag = 0
     except Exception as e:
-        print(f"Error closing database resources: {e}")
+        print(f"Error during processing: {e}")
+    finally:
+        try:
+            db.cursor.close()
+            db.connection.close()
+            print("Database connection closed.")
+        except Exception as e:
+            print(f"Error closing database resources: {e}")
 
-main_func()
+    print(f"Final results: {results}")
+    return results
 
+# Test the function
+#a = main_func("我想保研到通信工程")
+#print("Test finished, final output:")
+#print(a)
