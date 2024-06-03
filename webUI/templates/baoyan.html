@@ -86,11 +86,6 @@
                                 ${result}
                             </div>`;
                     });
-                    if (data.moreInfo) {
-                        document.getElementById('question').placeholder = "请输入'yes'或'no'";
-                    } else {
-                        document.getElementById('question').placeholder = "请输入保研需求，回车发送";
-                    }
                 }
                 // 恢复箭头状态
                 submitButtonImage.src = "{{ url_for('static', filename='images/arrow.png') }}";

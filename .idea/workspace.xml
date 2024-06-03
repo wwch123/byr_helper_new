@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69fb7dac-7080-42d4-84dc-fd0f7548586b" name="Changes" comment="没分三个界面前">
+    <list default="true" id="69fb7dac-7080-42d4-84dc-fd0f7548586b" name="Changes" comment="yes no不正常">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internship_info/answer.py" beforeDir="false" afterPath="$PROJECT_DIR$/internship_info/answer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/postgraduate_info/answer.py" beforeDir="false" afterPath="$PROJECT_DIR$/postgraduate_info/answer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webUI/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/webUI/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webUI/static/css/home.css" beforeDir="false" afterPath="$PROJECT_DIR$/webUI/static/css/home.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webUI/templates/baoyan.html" beforeDir="false" afterPath="$PROJECT_DIR$/webUI/templates/baoyan.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webUI/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/webUI/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webUI/templates/longtext.html" beforeDir="false" afterPath="$PROJECT_DIR$/webUI/templates/longtext.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,24 +38,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Mundus/university/daerxia/程序设计综合实验/byr_helper_new/postgraduate_info&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Mundus/university/daerxia/程序设计综合实验/byr_helper_new/postgraduate_info",
+    "settings.editor.selected.configurable": "preferences.externalDependencies"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Mundus\university\daerxia\程序设计综合实验\byr_helper_new\postgraduate_info" />
       <recent name="C:\Mundus\university\daerxia\程序设计综合实验\byr_helper_new\internship_info" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.answer (1)">
+  <component name="RunManager" selected="Python.app">
     <configuration name="answer (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="byr_helper" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -94,6 +90,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/internship_info/answer.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="byr_helper" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/webUI" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/webUI/app.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -168,6 +185,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.app" />
         <item itemvalue="Python.answer (1)" />
         <item itemvalue="Python.caogao" />
         <item itemvalue="Python.answer" />
@@ -256,7 +274,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717256375715</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="yes no不正常">
+      <option name="closed" value="true" />
+      <created>1717337351793</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1717337351793</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -268,6 +294,7 @@
     <MESSAGE value="历史记录展示正产，但是没有md和LaTeX" />
     <MESSAGE value="有md没有LaTeX" />
     <MESSAGE value="没分三个界面前" />
-    <option name="LAST_COMMIT_MESSAGE" value="没分三个界面前" />
+    <MESSAGE value="yes no不正常" />
+    <option name="LAST_COMMIT_MESSAGE" value="yes no不正常" />
   </component>
 </project>

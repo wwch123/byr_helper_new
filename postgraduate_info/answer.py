@@ -7,6 +7,7 @@ import sys
 zhipuai_API_KEY = 'a1c585c7b8106e12b92ceae99026a2cd.frA1fHlR0O4lyba4'
 init()
 
+
 def get_postgraduate_info_from_database(db, serial_number):
     try:
         cursor = db.cursor
@@ -27,6 +28,7 @@ def get_postgraduate_info_from_database(db, serial_number):
         print(f"Error retrieving postgraduate info: {e}")
         return None
 
+
 def get_database_object():
     try:
         db = database_operation.DatabaseManager()
@@ -38,6 +40,7 @@ def get_database_object():
         print(f"Error connecting to database: {e}")
         sys.exit(1)
 
+
 def whether_suitable(user_input, info):
     try:
         outcome = Agent_whether_suitable.whether_suitable(user_input, info[0])
@@ -46,6 +49,7 @@ def whether_suitable(user_input, info):
     except Exception as e:
         print(f"Error calling suitability agent: {e}")
         return "NO"
+
 
 def whether_suitable_double_check(user_input, info):
     try:
@@ -56,6 +60,7 @@ def whether_suitable_double_check(user_input, info):
         print(f"Error calling suitability agent: {e}")
         return "NO"
 
+
 def get_suggestions(user_input, info):
     try:
         suggestions = Agent_analysis.get_suggestions(user_input, info)
@@ -65,20 +70,18 @@ def get_suggestions(user_input, info):
         print(f"Error calling analysis agent: {e}")
         return None
 
-def get_new_flag(user_response):
-    return 1 if user_response.lower() == 'yes' else 0
 
-def main_func(user_input, user_response=None):
+def main_func(user_input, serial_number):
     db = get_database_object()
     results = []
-    serial_number = 0
-    flag = 1 if user_response is None else get_new_flag(user_response)
-    flag_1 = 0 #检查是否检索完所有数据库
+    serial_number = serial_number
+    flag = 1
+    flag_1 = 0  # 检查是否检索完所有数据库
     print('Processing postgraduate application requirements...')
-
+    answers = []
     try:
         while flag == 1 and flag_1 == 0:
-            answers = []
+            # answers = []
             while len(answers) < 2:
                 serial_number += 1
                 info = get_postgraduate_info_from_database(db, serial_number)
@@ -101,9 +104,7 @@ def main_func(user_input, user_response=None):
                 print('已全部检索完毕，无更多信息可查')
                 results.append('已全部检索完毕，无更多信息可查')
                 flag_1 = 1
-            else:
-                results.append('请问您是否需要更多信息？')
-                flag = 0
+            flag = 0  # 结束循环
     except Exception as e:
         print(f"Error during processing: {e}")
     finally:
@@ -115,9 +116,10 @@ def main_func(user_input, user_response=None):
             print(f"Error closing database resources: {e}")
 
     print(f"Final results: {results}")
-    return results
+
+    return results, len(answers)
 
 # Test the function
-#a = main_func("我想保研到通信工程")
-#print("Test finished, final output:")
-#print(a)
+# a = main_func("我想保研到通信工程")
+# print("Test finished, final output:")
+# print(a)

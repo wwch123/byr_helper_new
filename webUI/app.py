@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify, Markup, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify, Markup, \
+    send_from_directory
 import pymysql
 import bcrypt
 from datetime import datetime
@@ -12,13 +13,12 @@ import os
 # 确保工程根目录在系统路径中
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from long_essay_generator.AI_Agents import Agent_outline, Agent_heading, Agent_paragraph
-from postgraduate_info.answer import main_func, get_new_flag
+from postgraduate_info.answer import main_func
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # 替换为你的实际密钥
 
-zhipuai_API_KEY='a1c585c7b8106e12b92ceae99026a2cd.frA1fHlR0O4lyba4'
-
+zhipuai_API_KEY = 'a1c585c7b8106e12b92ceae99026a2cd.frA1fHlR0O4lyba4'
 
 # 数据库配置
 config = {
@@ -30,6 +30,7 @@ config = {
     'charset': 'utf8mb4'
 }
 
+
 # 连接到数据库
 def connect_db():
     return pymysql.connect(
@@ -40,6 +41,7 @@ def connect_db():
         charset=config['charset'],
         cursorclass=pymysql.cursors.DictCursor
     )
+
 
 # 获取用户历史记录
 def get_history(user_id):
@@ -53,6 +55,7 @@ def get_history(user_id):
     finally:
         connection.close()
 
+
 # 添加历史记录
 def add_history(user_id, question, answer):
     connection = connect_db()
@@ -65,6 +68,7 @@ def add_history(user_id, question, answer):
             return cursor.lastrowid
     finally:
         connection.close()
+
 
 # 用户注册或登录
 def register_or_login(username, password):
@@ -87,6 +91,7 @@ def register_or_login(username, password):
                 return ('register', cursor.lastrowid)
     finally:
         connection.close()
+
 
 # 创建表
 def create_tables():
@@ -117,14 +122,17 @@ def create_tables():
     finally:
         connection.close()
 
+
 create_tables()
 
 
 # Markdown 转 HTML 方法
 def md_to_html(md_content):
-    exts = ['markdown.extensions.extra', 'markdown.extensions.codehilite', 'markdown.extensions.tables', 'markdown.extensions.toc']
+    exts = ['markdown.extensions.extra', 'markdown.extensions.codehilite', 'markdown.extensions.tables',
+            'markdown.extensions.toc']
     html = markdown.markdown(md_content, extensions=exts)
     return Markup(html)
+
 
 def get_complex_outline(user_input):
     outline = Agent_outline.get_complex_outline(user_input, zhipuai_API_KEY)
@@ -133,6 +141,7 @@ def get_complex_outline(user_input):
     sections = [''.join(match) for match in matches if any(match)]
     return sections
 
+
 def get_simple_outline(user_input):
     outline = Agent_outline.get_simple_outline(user_input, zhipuai_API_KEY)
     pattern = r'(^\d+\.\S*[^\n]*)|(\d+\.\d+\S*[^\n]*)|(\d+\.\d+\.\d+\S*[^\n]*)'
@@ -140,23 +149,28 @@ def get_simple_outline(user_input):
     sections = [''.join(match) for match in matches if any(match)]
     return sections
 
+
 def get_heading(user_input):
     heading = Agent_heading.get_heading(user_input, zhipuai_API_KEY)
     return heading
 
+
 def get_paragraph(outline, subheading):
     paragraph = Agent_paragraph.get_paragraph(outline, subheading, zhipuai_API_KEY)
     return paragraph
+
 
 def is_third_level_heading(sections, index):
     if index + 1 < len(sections) and re.match(r'^\d+\.\d+\.\d+', sections[index + 1]):
         return True
     return False
 
+
 def is_second_level_heading(sections, index):
     if index + 1 < len(sections) and re.match(r'^\d+\.\d+', sections[index + 1]):
         return True
     return False
+
 
 def generate_long_paper(user_input):
     with ThreadPoolExecutor() as executor:
@@ -193,6 +207,7 @@ def generate_long_paper(user_input):
     doc.save(docx_path)
     return docx_path
 
+
 def generate_longlong_paper(user_input):
     with ThreadPoolExecutor() as executor:
         outline_future = executor.submit(get_complex_outline, user_input)
@@ -228,6 +243,7 @@ def generate_longlong_paper(user_input):
     doc.save(docx_path)
     return docx_path
 
+
 @app.route('/')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -240,6 +256,7 @@ def login():
             return jsonify({"status": "error", "message": "请输入您的密码"})
         action, user_info = register_or_login(username, password)
         if action == 'login':
+            session['serial_number'] = 0
             session['user_id'] = user_info
             session['username'] = username  # Add username to session
             return jsonify({"status": "success", "message": "登录成功"})
@@ -251,6 +268,7 @@ def login():
             return jsonify({"status": "error", "message": user_info})
 
     return render_template('login.html')
+
 
 @app.route('/home')
 def home():
@@ -265,17 +283,22 @@ def home():
 @app.route('/baoyan', methods=['POST'])
 def baoyan():
     question = request.form.get('question')
-    user_response = request.form.get('response')
-    if user_response is None:
-        response = main_func(question)
-    else:
-        response = main_func(question, user_response)
+    user_id = session.get('user_id')
+    serial_number = session.get('serial_number')
+    print('serial_number', serial_number)
+    if not user_id:
+        return jsonify({"error": "请登录以查看保研信息。"})
 
-    more_info_needed = any("请问您是否需要更多信息？" in item for item in response)
+    response, answer_len = main_func(question, serial_number)
+
+    session['serial_number'] += answer_len
+    # 保存到历史记录表
+    answer = "\n".join(response)
+    add_history(user_id, question, answer)
 
     return jsonify({
         "results": response,
-        "moreInfo": more_info_needed
+        "moreInfo": False
     })
 
 
@@ -287,6 +310,8 @@ def baoyan_page():
 
     user_history = get_history(session['user_id'])
     return render_template('baoyan.html', history=user_history)
+
+
 @app.route('/shixi')
 def shixi():
     if 'user_id' not in session:
@@ -331,6 +356,7 @@ def ask():
 
     return jsonify({"error": "未能获取问题或长度选项。"})
 
+
 @app.route('/history/<int:record_id>')
 def get_history_record(record_id):
     if 'user_id' not in session:
@@ -350,13 +376,17 @@ def get_history_record(record_id):
     finally:
         connection.close()
 
+
 @app.route('/download/<filename>', methods=['GET'])
 def download(filename):
     return send_from_directory('output', filename)
 
+
 @app.route('/wechat_login')
 def wechat_login():
-    return redirect("https://open.weixin.qq.com/connect/qrconnect?appid=YOUR_APP_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect")
+    return redirect(
+        "https://open.weixin.qq.com/connect/qrconnect?appid=YOUR_APP_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect")
+
 
 if __name__ == '__main__':
     if not os.path.exists('output'):
